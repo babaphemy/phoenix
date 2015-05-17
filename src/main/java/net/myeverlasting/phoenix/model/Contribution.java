@@ -57,18 +57,20 @@ public class Contribution implements Serializable {
 	public void setCustomer(User customer) {
 		this.customer = customer;
 	}
-	public BigDecimal getMonthlyContributable() {
-		return monthlyContributable;
-	}
-	public void setMonthlyContributable(BigDecimal monthlyContributable) {
-		this.monthlyContributable = monthlyContributable;
-	}
 	
 	public List<Transaction> getTransactions() {
 		return transactions;
 	}
 	public void setTransactions(List<Transaction> transactions) {
 		this.transactions = transactions;
+	}
+	
+	
+	public BigDecimal getMonthlyContributable() {
+		return monthlyContributable;
+	}
+	public void setMonthlyContributable(BigDecimal monthlyContributable) {
+		this.monthlyContributable = monthlyContributable;
 	}
 	public BigDecimal getCummulative() {
 		return cummulative;

@@ -14,7 +14,7 @@ function ($scope, $http) {
     $scope.displayValidationError = false;
     $scope.displaySearchMessage = false;
     $scope.displaySearchButton = false;
-    $scope.displayCreateContactButton = false;
+    $scope.displayCreateModuleButton = false;
 
     $scope.contact = {}
 
@@ -42,18 +42,18 @@ function ($scope, $http) {
         if (data.pagesCount > 0) {
             $scope.state = 'list';
 
-            $scope.page = {source: data.contacts, currentPage: $scope.pageToGet, pagesCount: data.pagesCount, totalContacts : data.totalContacts};
+            $scope.page = {source: data.contacts, currentPage: $scope.pageToGet, pagesCount: data.pagesCount, totalModules : data.totalModules};
 
             if($scope.page.pagesCount <= $scope.page.currentPage){
                 $scope.pageToGet = $scope.page.pagesCount - 1;
                 $scope.page.currentPage = $scope.page.pagesCount - 1;
             }
 
-            $scope.displayCreateContactButton = true;
+            $scope.displayCreateModuleButton = true;
             $scope.displaySearchButton = true;
         } else {
             $scope.state = 'noresult';
-            $scope.displayCreateContactButton = true;
+            $scope.displayCreateModuleButton = true;
 
             if(!$scope.searchFor){
                 $scope.displaySearchButton = false;

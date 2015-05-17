@@ -1,11 +1,62 @@
 phoApp.controller('usersController', function ($scope, $http){
+		
     $scope.pageToGet = 0;
 
     $scope.state = 'busy';
 
     $scope.lastAction = '';
+  
     
 	$scope.url = "/phoenix/protected/users/";
+	$scope.url1 = "/phoenix/protected/users/conf/"
+	
+	$scope.itemList = [];
+	
+	$http.get('/phoenix/protected/users/').
+	   success(function(data) {
+	       $scope.itemList = data;
+	   });
+	  $scope.modified = [];
+	  
+	  $scope.updateRecords = function(){
+		    for(var item in $scope.itemList){
+		      item = $scope.itemList[item];
+		      item.expected = item.daysInMonth * item.ads;
+		    }
+		  }
+
+
+		  $scope.addToModifyList = function(item){
+		    if ($scope.modified.indexOf(item) == -1) {
+		         $scope.modified.push(item);
+		     }
+		  }
+
+		  $scope.isModified = function(item){
+		    if ($scope.modified.indexOf(item) == -1) {
+		         return false;
+		     }
+		     return true;
+		  }
+
+		  $scope.sendData = function(){
+			    if($scope.modified.length > 0){
+			      $http.post('/phoenix/protected/users/conf/', $scope.modified).
+			         success(function(data, status, headers, config) {
+			            alert("Successfully updated");
+			          }).
+			          error(function(data, status, headers, config) {
+			            alert("Updation error");
+			          });
+			    }
+
+			  }
+		  $scope.$watch('itemList', $scope.updateRecords, true);
+	
+	
+	
+	
+	
 	
     $scope.errorOnSubmit = false;
     $scope.errorIllegalAccess = false;
@@ -50,6 +101,8 @@ phoApp.controller('usersController', function ($scope, $http){
 
            // $scope.page = {source: data.customers, currentPage: $scope.pageToGet, pagesCount: data.pagesCount, totalContacts : data.totalContacts};
             $scope.page = data;
+            
+            
 
           /*  if($scope.page.pagesCount <= $scope.page.currentPage){
                 $scope.pageToGet = $scope.page.pagesCount - 1;
@@ -164,18 +217,45 @@ phoApp.controller('usersController', function ($scope, $http){
         });
         
 
-/*        $http.post(url,xsrf , config)
-            .success(function (data) {
-                $scope.finishAjaxCallOnSuccess(data, "#addUsersModal", false);
-            })
-            .error(function(data, status, headers, config) {
-                $scope.handleErrorInDialogs(status);
-            });*/
     };
     
-    $scope.configure = function(){
-    	var url = "/protected/users/configure/";
-    }
+    
+    
+    $scope.ads = {
+    		value:0,
+    		multipliedByIt:0
+    };
+    
+       
+    $scope.$watch('page', function (newValue, oldValue) {
+        angular.forEach(newValue, function (user) {
+          if (!user.ads)   user.ads = angular.extend({}, $scope.ads);
+          if (!user.sdate) user.sdate = $scope.sdate;
+          user.ads.multipliedByIt = user.ads.value * user.sdate;
+        });
+      }, true);
+     
+    	
+    $scope.zoneConfig = function (configForm) {
+        $scope.lastAction = 'create';
+        $scope.uri = "/phoenix/protected/users/conf/";
+        var uri = $scope.uri,
+            $ = { param: angular.noop }; //-- Added this since I did not include jQuery in this CodePen
+        angular.forEach($scope.page, function (user, key) {
+          var xsrfi = $.param({
+            'monthlyContributable' : user.ads.value,
+            'expectedAmount': user.ads.multipliedByIt
+          });
+          $http({
+              method: 'POST',
+              url: uri,
+              data: xsrfi,
+              headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+          });
+        });
+      };
+    
+    
 
     $scope.selectedUser = function (user) {
         var selectedUser = angular.copy(user);
@@ -265,9 +345,7 @@ phoApp.controller('usersController', function ($scope, $http){
     
     $scope.getUserList();
     
-    $scope.zoneConfig = function(){
-    	
-    }
+    
     
     $scope.zoneContrib = function(){
     	window.location.href="/phoenix/protected/contributions";
@@ -275,5 +353,15 @@ phoApp.controller('usersController', function ($scope, $http){
     $scope.zoneWtd = function(){
     	
     }
+    $scope.sdate = daysInMonth();
+    $scope.date = new Date();
+      
     
 });
+
+
+function daysInMonth() {
+	var mdate = new Date();
+	
+    return new Date(mdate.getFullYear(), mdate.getMonth(), 0).getDate();
+}

@@ -23,9 +23,13 @@ public class ContributionService {
 		return crep.findConByCustomer(user);
 	}
 	
-	public Long saveCon(Contribution contribution){
-		crep.save(contribution);
-		return contribution.getId();
+	public Contribution saveCon(Contribution contribution){
+		return crep.save(contribution);
+		
+	}
+	
+	public List<Contribution> saveCons(List<Contribution> contribs){
+		return crep.save(contribs);
 	}
 	
 	

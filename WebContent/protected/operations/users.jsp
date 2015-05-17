@@ -7,7 +7,9 @@
 <div class="row-fluid" ng-controller="usersController">
 
 <div id="links">
-<button type="button" class="btn btn-primary" ng-click="zoneConfig();">Configure</button>| <button type="button" class="btn btn-primary" ng-click="zoneContrib();">Contribute</button>|<button type="button" class="btn btn-primary" ng-click="zoneWtd();">Withdrawal</button>
+<button type="button" class="btn btn-primary" ng-click="zoneConfig(accountForm);">Configure</button>
+| <button type="button" class="btn btn-primary" ng-click="zoneContrib();">Contribute</button>|
+<button type="button" class="btn btn-primary" ng-click="zoneWtd();">Withdrawal</button>
 </div>
 
     <h2>
@@ -26,7 +28,7 @@
     <h4>
         <div ng-class="{'': state == 'list', 'none': state != 'list'}">
             <p class="text-center">
-                <spring:message code="message.total.records.found"/>:&nbsp;{{page.totalZoneCustomers}}
+                <spring:message code="message.total.records.found"/>:&nbsp;{{page.totalZoneCustomers}} |  <spring:message code="month"/> : {{date | date:'MMMM'}}
             </p>
         </div>
     </h4>
@@ -55,11 +57,8 @@
         </div>
         
         
-        <form id="accountForm" method="post" class="form-horizontal">
-    <div class="tab-content">
-        <div class="tab-pane active" id="info-tab">
-        
-        <div id="gridContainer" ng-class="{'': state == 'list', 'none': state != 'list'}">
+        <form name="configForm" novalidate >
+  		 <div id="gridContainer" ng-class="{'': state == 'list', 'none': state != 'list'}">
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -67,7 +66,6 @@
                     <th scope="col"><spring:message code="user.account"/></th>
                     <th scope="col"><spring:message code="user.serial"/></th>
                     <th scope="col"><spring:message code="user.start"/></th>
-                    <th scope="col"><spring:message code="user.end"/></th>
                     <th scope="col"><spring:message code="user.ads"/></th>
                     <th scope="col"><spring:message code="user.expected"/></th>
                     
@@ -75,20 +73,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="user in page">
-                    <td class="tdContactsCentered">{{user.name}}</td>
-                    <td class="tdContactsCentered">{{user.accountNumber}}</td>
-                    <td class="tdContactsCentered">{{user.serialNumber}}</td>
-                    <td class="tdContactsCentered"> </td>
-                    <td class="tdContactsCentered"></td>
-                    <td class="tdContactsCentered"><div class="input-append">
-                        <input type="text"
-                               required
-                               ng-model="user.ads"
-                               name="ads"
-                               />
-                    </div></td>
-                    <td class="tdContactsCentered"></td>
+                <tr ng-repeat="item in itemList"  ng-class="{ 'modified': isModified(item)}">
+                    <td class="tdContactsCentered">{{item.name}}<input type="hidden" name="cid" value="{{user.id}}" /></td>
+                    <td class="tdContactsCentered" >{{item.accountNumber}}</td>
+                    <td class="tdContactsCentered">{{item.serialNumber}}</td>
+                    <td class="text-left"><input type="text" ng-change="addToModifyList(item)" ng-model="item.daysInMonth" placeholder="{{ item.daysInMonth | number }}" class="input-small"></input></td>
+        <td class="text-left"><input type="text" ng-change="addToModifyList(item)" ng-model="item.ads" placeholder="{{ item.ads }}" class="input-small"></input></td>
+        <td class="text-left"><input type="text" ng-change="addToModifyList(item)" ng-model="item.expected" placeholder="{{ item.expected }}" class="input-small"></input></td>
+                    
+                    
+                    
+                    
+                    
+                   
                     <td class="width15">
                         <div class="text-center">
                             <input type="hidden" value="{{user.id}}"/>
@@ -153,7 +150,11 @@
     <div style="margin: 15px">
         <div class="form-group">
             <div class="col-sm-5 col-sm-offset-3">
-                <button type="submit" class="btn btn-default">Validate</button>
+                                      <input type="submit"
+                       class="btn btn-inverse"
+                       ng-click="sendData();"
+                       value='<spring:message code="config"/>'/>
+                                      
             </div>
         </div>
     </div>

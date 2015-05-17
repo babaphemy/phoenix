@@ -28,6 +28,9 @@
      <definition name="contrib" extends="master.page">
         <put-attribute name="body" value="/protected/operations/contributions.jsp"/>
     </definition>
+     <definition name="acctsPage" extends="master.page">
+        <put-attribute name="body" value="/protected/accounts/accounts.jsp"/>
+    </definition>
     <definition name="login" extends="master.page">
         <put-attribute name="header" value=""/>
         <put-attribute name="footer" value=""/>

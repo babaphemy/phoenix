@@ -9,9 +9,8 @@ import net.myeverlasting.phoenix.repository.ZoneRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-@Service
 @Transactional
+@Service("zoneServ")
 public class ZoneService {
 	
 	@Autowired
@@ -21,12 +20,15 @@ public class ZoneService {
 		return zoneRep.findAll();
 	}
 	
+	@Transactional
 	public Zone findZoneById(Long id){
-		return zoneRep.findById(id);
+		Zone zone =  zoneRep.findById(id);
+		System.out.println(zone.getCustomers().size() + "customers");
+		return zone;
 	}
 	
 	public void saveZone(Zone zone){
-		zoneRep.save(zone);
+		zoneRep.saveAndFlush(zone);
 	}
 	
 	public List<User> findCustomers(Long zoid){

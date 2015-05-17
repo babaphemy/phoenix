@@ -8,6 +8,7 @@
         <link href="<c:url value='/resources/css/bootstrap.min.css'  />" rel="stylesheet"/>
         <link href="<c:url value='/resources/css/bootstrap-responsive.min.css'  />" rel="stylesheet"/>
         <link href="<c:url value='/resources/css/project_style.css'  />" rel="stylesheet"/>
+        <script src="<c:url value="/resources/js/respond.js" />"></script>
         <script src="<c:url value='/resources/js/jquery-1.9.1.min.js' />"></script>
         <script src="<c:url value='/resources/js/angular.min.js' />"></script>
         <script src="<c:url value="/resources/js/pages/app.js" />"></script>

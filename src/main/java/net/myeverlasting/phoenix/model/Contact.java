@@ -3,6 +3,7 @@ package net.myeverlasting.phoenix.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Contact {
@@ -13,6 +14,8 @@ public class Contact {
 	private String name;
 	private String phoneNumber;
 	private String email;
+	@OneToOne
+	private Modules mother;
 	
 	public Contact(){
 		

@@ -50,6 +50,8 @@ public class User implements Serializable {
 	  private List<Roles> roles = new ArrayList();
 	  @OneToOne(cascade={javax.persistence.CascadeType.MERGE, javax.persistence.CascadeType.PERSIST, javax.persistence.CascadeType.REFRESH})
 	  private Contribution currentContribution;
+	  @OneToOne
+	  private Modules mother;
 	
 	  public User(){
 		  

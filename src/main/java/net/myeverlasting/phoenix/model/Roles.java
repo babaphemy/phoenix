@@ -1,6 +1,8 @@
 package net.myeverlasting.phoenix.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -8,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -25,6 +28,8 @@ public class Roles implements Serializable {
 	private RoleCategory category;
 	private String rolename;
 	private String roledescription;
+	@OneToMany
+	private List<Modules> roleModules = new ArrayList();
 	
 	public Roles(){
 		
@@ -58,6 +63,27 @@ public class Roles implements Serializable {
 
 	public void setRoledescription(String roledescription) {
 		this.roledescription = roledescription;
+	}
+	
+
+
+	public RoleCategory getCategory() {
+		return category;
+	}
+
+
+	public void setCategory(RoleCategory category) {
+		this.category = category;
+	}
+
+
+	public List<Modules> getRoleModules() {
+		return roleModules;
+	}
+
+
+	public void setRoleModules(List<Modules> roleModules) {
+		this.roleModules = roleModules;
 	}
 
 

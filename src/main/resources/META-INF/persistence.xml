@@ -3,9 +3,18 @@
 	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 	<persistence-unit name="punit" transaction-type="RESOURCE_LOCAL">
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<!-- <provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<non-jta-data-source>java:comp/env/jdbc/phoenix_core</non-jta-data-source>
-		
+		 --><properties> 
+	<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" /> 
+	<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3308/phoenix_core?autoReconnect=true" /> 
+	<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" /> 
+	<property name="hibernate.connection.username" value="root" /> 
+	<property name="hibernate.connection.password" value="admin" /> 
+	<property name="hibernate.show_sql" value="true"/> 
+	<property name="hibernate.format_sql" value="true"/> 
+	<property name="hibernate.use_sql_comments" value="false"/> 
+	<property name="hibernate.hbm2ddl.auto" value="update"/> </properties> 
 
 	</persistence-unit>
 </persistence>

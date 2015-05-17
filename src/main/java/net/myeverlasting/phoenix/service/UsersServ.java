@@ -17,7 +17,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Service("usersServ")
 @Transactional
 public class UsersServ {
 	
@@ -42,6 +42,11 @@ public class UsersServ {
 	}
 	private boolean hasDatainDb(Page<User> result){
 		return result.getTotalElements() > 0;
+	}
+	
+	@Transactional
+	public User findById(Long uid){
+		return userRep.findById(uid);
 	}
 
 }

@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -37,6 +39,8 @@ public class Zone implements Serializable {
 	@JoinTable(name="tbl_zone_customers")
 	private List<User> customers = new ArrayList();
 	private boolean accountOfficerAssigned;
+	@OneToOne
+	private Modules mother;
 	
 	
 	public Long getId() {
